@@ -13,16 +13,32 @@ public class Hud {
   private static final int TEXTURE_SIZE = 16;
   private static final int BACKGROUND_SIZE = 22;
   private static final int SELECTION_SIZE = 24;
-  public static TriState ANIMATE = TriState.DEFAULT;
-  public static float OFFSET = 0F;
+  private static TriState animate = TriState.DEFAULT;
+  private static float offset = 0F;
+  
+  private Hud() {
+    throw new IllegalStateException("Not to be used directly");
+  }
+  
+  public static TriState getAnimate() {
+    return Hud.animate;
+  }
+  
+  public static void setAnimate(TriState animate) {
+    Hud.animate = animate;
+  }
+  
+  public static void setOffset(float offset) {
+    Hud.offset = offset;
+  }
   
   public static void render(DrawContext context, RenderTickCounter renderTickCounter) {
     MatrixStack matrices = context.getMatrices();
     matrices.push();
-    if (ANIMATE != TriState.DEFAULT) {
-      OFFSET += renderTickCounter.getTickDelta(false) * 2;
-      if (OFFSET >= BACKGROUND_SIZE) {
-        if (ANIMATE == TriState.TRUE) {
+    if (animate != TriState.DEFAULT) {
+      offset += renderTickCounter.getTickDelta(false) * 2;
+      if (offset >= BACKGROUND_SIZE) {
+        if (animate == TriState.TRUE) {
           Modes.ALL.removeFirst();
           Modes.ALL.addFirst(Modes.ALL.removeLast());
           Modes.locateCurrent();
@@ -31,20 +47,20 @@ public class Hud {
           Modes.ALL.addLast(Modes.ALL.removeFirst());
           Modes.locateCurrent();
         }
-        OFFSET = 0;
-        ANIMATE = TriState.DEFAULT;
+        offset = 0;
+        animate = TriState.DEFAULT;
       }
-      float current_offset = OFFSET;
-      if (ANIMATE == TriState.TRUE) {
-        current_offset *= -1;
+      float currentOffset = offset;
+      if (animate == TriState.TRUE) {
+        currentOffset *= -1;
       }
-      matrices.translate(0, current_offset, 0);
+      matrices.translate(0, currentOffset, 0);
     }
     int width = context.getScaledWindowWidth() - SELECTION_SIZE;
     int height = context.getScaledWindowHeight() / 2;
     int heightOffset = 0;
     int half = (Modes.ALL.size() - 1) / 2;
-    if (ANIMATE == TriState.TRUE) {
+    if (animate == TriState.TRUE) {
       half++;
     }
     int offset = half * BACKGROUND_SIZE;

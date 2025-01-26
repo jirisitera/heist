@@ -7,9 +7,7 @@
     "MixinEntity",
     "MixinLivingEntity"
   ],
-  "client": [
-    "client.MixinInGameHud"
-  ],
+  "client": ["client.MixinInGameHud"],
   "injectors": {
     "defaultRequire": 1
   }

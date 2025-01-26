@@ -1,41 +1,38 @@
-package japi.heist.client;
+package japi.heist;
 
-import japi.heist.Hud;
-import japi.heist.Modes;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 
 public class HeistClient implements ClientModInitializer {
-  private static KeyBinding NEXT;
-  private static KeyBinding PREVIOUS;
-  
   @Override
   public void onInitializeClient() {
-    NEXT = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+    KeyBinding next = KeyBindingHelper.registerKeyBinding(new KeyBinding(
         "key.heist.next",
         InputUtil.Type.KEYSYM,
         GLFW.GLFW_KEY_R,
-        "category.heist.keybinds"
+        "category.heist.keybindings"
     ));
-    PREVIOUS = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+    KeyBinding previous = KeyBindingHelper.registerKeyBinding(new KeyBinding(
         "key.heist.previous",
         InputUtil.Type.KEYSYM,
         GLFW.GLFW_KEY_G,
-        "category.heist.keybinds"
+        "category.heist.keybindings"
     ));
     ClientTickEvents.END_CLIENT_TICK.register(client -> {
-      while (NEXT.wasPressed()) {
+      while (next.wasPressed()) {
         Modes.next();
       }
-      while (PREVIOUS.wasPressed()) {
+      while (previous.wasPressed()) {
         Modes.previous();
       }
     });
+    ParticleFactoryRegistry.getInstance().register(Heist.VISION_PARTICLE, VisionParticle.Factory::new);
     HudRenderCallback.EVENT.register(Hud::render);
   }
 }

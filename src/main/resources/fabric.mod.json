@@ -10,13 +10,14 @@
   "icon": "assets/heist/icon.png",
   "environment": "*",
   "entrypoints": {
-    "client": ["japi.heist.client.HeistClient"],
+    "client": ["japi.heist.HeistClient"],
     "main": ["japi.heist.Heist"]
   },
   "mixins": ["heist.mixins.json"],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "fabric-key-binding-api-v1": "*"
   }

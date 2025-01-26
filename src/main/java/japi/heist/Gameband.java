@@ -1,7 +1,9 @@
 package japi.heist;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -13,17 +15,25 @@ public class Gameband extends Item {
   
   @Override
   public ActionResult use(World world, PlayerEntity user, Hand hand) {
-    switch (Modes.CURRENT.getName()) {
-      case "recharge":
+    switch (Modes.getCurrent().getName()) {
+      case "Recharge":
         // Recharge the gameband
         break;
-      case "hacking":
+      case "Hacking":
         // Hack the gameband
         break;
-      case "lightning":
-        // Strike lightning
+      case "Sensor":
+        // Use the sensor
+        break;
+      default:
         break;
     }
     return ActionResult.SUCCESS;
+  }
+  
+  @Override
+  public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+    VisionZone.render(world, entity);
+    super.inventoryTick(stack, world, entity, slot, selected);
   }
 }
