@@ -7,7 +7,7 @@
     "MixinEntity",
     "MixinLivingEntity"
   ],
-  "client": ["client.MixinInGameHud"],
+  "client": ["client.MixinInGameHud", "client.VisionMixin"],
   "injectors": {
     "defaultRequire": 1
   }

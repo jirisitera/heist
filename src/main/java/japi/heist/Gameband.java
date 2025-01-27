@@ -1,9 +1,7 @@
 package japi.heist;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -29,11 +27,5 @@ public class Gameband extends Item {
         break;
     }
     return ActionResult.SUCCESS;
-  }
-  
-  @Override
-  public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-    VisionZone.render(world, entity);
-    super.inventoryTick(stack, world, entity, slot, selected);
   }
 }
