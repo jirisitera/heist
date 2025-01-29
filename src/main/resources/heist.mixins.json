@@ -2,12 +2,8 @@
   "required": true,
   "package": "japi.heist.mixins",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    "HungerMixin",
-    "MixinEntity",
-    "MixinLivingEntity"
-  ],
-  "client": ["client.MixinInGameHud", "client.VisionMixin"],
+  "mixins": ["HungerMixin"],
+  "client": ["MixinInGameHud", "VisionMixin"],
   "injectors": {
     "defaultRequire": 1
   }

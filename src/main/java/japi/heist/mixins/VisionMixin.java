@@ -1,8 +1,9 @@
-package japi.heist.mixins.client;
+package japi.heist.mixins;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.VertexRendering;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.state.EntityRenderState;
@@ -11,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,22 +35,17 @@ public abstract class VisionMixin {
     Vec3d bottomLeft = rotation.add(left).add(bottom);
     
     VertexConsumer vertices = vertexConsumers.getBuffer(RenderLayer.getLines());
-    Vector3f eyeHeight = new Vector3f(0.0F, entity.getStandingEyeHeight(), 0.0F);
-    int color = -65536;
+    Vector3f eyeHeight = new Vector3f(0, entity.getStandingEyeHeight(), 0);
+    int red = -65536;
     
-    drawLine(matrices,vertices, eyeHeight, topRight,color);
-    drawLine(matrices,vertices, eyeHeight, topLeft,color);
-    drawLine(matrices,vertices, eyeHeight, bottomRight,color);
-    drawLine(matrices,vertices, eyeHeight, bottomLeft,color);
-  
-  }
-  @Unique
-  private static void drawLine(MatrixStack matrices, VertexConsumer vertexConsumers, Vector3f offset, Vec3d vec, int argb) {
-    MatrixStack.Entry matrix = matrices.peek();
-    float x = (float) vec.getX();
-    float y = (float) vec.getY();
-    float z = (float) vec.getZ();
-    vertexConsumers.vertex(matrix, offset).normal(matrix,x,y,z).color(argb);
-    vertexConsumers.vertex(matrix, (offset.x() + x), (offset.y() + y), (offset.z() + z)).normal(matrix,x,y,z).color(argb);
+    VertexRendering.drawVector(matrices, vertices, eyeHeight, topRight, red);
+    VertexRendering.drawVector(matrices, vertices, eyeHeight, topLeft, red);
+    VertexRendering.drawVector(matrices, vertices, eyeHeight, bottomRight, red);
+    VertexRendering.drawVector(matrices, vertices, eyeHeight, bottomLeft, red);
+    
+    VertexRendering.drawVector(matrices, vertices, topRight.toVector3f().add(eyeHeight), topLeft.subtract(topRight), red);
+    VertexRendering.drawVector(matrices, vertices, topLeft.toVector3f().add(eyeHeight), bottomLeft.subtract(topLeft), red);
+    VertexRendering.drawVector(matrices, vertices, bottomLeft.toVector3f().add(eyeHeight), bottomRight.subtract(bottomLeft), red);
+    VertexRendering.drawVector(matrices, vertices, bottomRight.toVector3f().add(eyeHeight), topRight.subtract(bottomRight), red);
   }
 }

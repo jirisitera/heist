@@ -1,4 +1,4 @@
-package japi.heist;
+package japi.heist.gameband;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

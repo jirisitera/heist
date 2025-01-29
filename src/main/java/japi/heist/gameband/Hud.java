@@ -1,4 +1,4 @@
-package japi.heist;
+package japi.heist.gameband;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
